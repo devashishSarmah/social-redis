@@ -6,7 +6,10 @@ export class AppService {
   private client: Redis;
 
   constructor() {
-    this.client = new Redis();
+    this.client = new Redis({
+      port: Number(process.env.PORT),
+      host: process.env.HOST,
+    });
   }
 
   add(key: string, data: any): void {
