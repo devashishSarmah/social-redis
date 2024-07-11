@@ -1,8 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { Redis } from 'ioredis';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  private client: Redis;
+
+  constructor() {
+    this.client = new Redis();
+  }
+
+  add(key: string, data: any): void {
+    this.client.set(key, JSON.stringify(data));
   }
 }

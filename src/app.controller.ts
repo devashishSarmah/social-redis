@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @MessagePattern({ cmd: 'ADD' })
+  addToRedis(data: { key: string; payload: any }): void {
+    this.appService.add(data.key, data.payload);
   }
 }
